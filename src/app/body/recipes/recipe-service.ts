@@ -8,7 +8,8 @@ import {Subject} from 'rxjs';
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes: Recipe[] = [
+  private recipes: Recipe[] = [];
+  /*private recipes: Recipe[] = [
     new Recipe('Egg fried rice',
     'Uncle Roger\'s glorious egg fried rice',
     'https://upload.wikimedia.org/wikipedia/commons/7/71/Fried_rice_with_chicken_%2817234644521%29.jpg',
@@ -23,7 +24,7 @@ export class RecipeService {
         new Ingredient('Frieten', 30),
         new Ingredient('Stoofvlees', 1),
       ])
-  ];
+  ];*/
 
   constructor(private shoppingListService: ShoppingListService) {
   }
@@ -52,6 +53,11 @@ export class RecipeService {
 
   deleteRecipe(index: number) {
     this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.getRecipes());
+  }
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
     this.recipesChanged.next(this.getRecipes());
   }
 }
