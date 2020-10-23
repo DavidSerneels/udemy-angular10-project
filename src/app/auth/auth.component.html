@@ -4,6 +4,7 @@
       <p>{{ errorMessage }}</p>
     </div>-->
     <!--<app-alert [message]="errorMessage" *ngIf="errorMessage" (close)="onHandleError()"></app-alert>-->
+    <ng-template appPlaceholder></ng-template>
     <div *ngIf="isLoading" style="text-align: center;">
       <app-loading-spinner></app-loading-spinner>
     </div>
