@@ -2,7 +2,9 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/recipes', pathMatch: 'full' }
+  { path: '', redirectTo: '/recipes', pathMatch: 'full' },
+  { path: 'recipes', loadChildren: './body/recipes/recipes.module#RecipesModule'}
+  // { path: 'recipes', loadChildren: () => import('./body/recipes/recipes.module').then(module => module.RecipesModule)}
 ];
 
 @NgModule({
