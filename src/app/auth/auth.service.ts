@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
-import {BehaviorSubject, Observable, Subject, throwError} from 'rxjs';
+import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {User} from './user.model';
 import {Router} from '@angular/router';
+import {environment} from '../../environments/environment';
 
 export interface AuthResponseData {
   idToken: string;
@@ -18,7 +19,6 @@ export interface AuthResponseData {
 export class AuthService {
   private signupUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp';
   private loginUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword';
-  private apiKey = 'AIzaSyDjK7U3svW-4j96uURx39FOoQ_xUU_35PU';
 
   user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
@@ -32,7 +32,7 @@ export class AuthService {
         password: password,
         returnSecureToken: true
       }, {
-        params: new HttpParams().set('key', this.apiKey)
+        params: new HttpParams().set('key', environment.firebaseApiKey)
       }).pipe(
         catchError(this.handleError),
         tap(responseData => this.handleAuthentication(responseData.email,
@@ -48,7 +48,7 @@ export class AuthService {
         password: password,
         returnSecureToken: true
       }, {
-        params: new HttpParams().set('key', this.apiKey)
+        params: new HttpParams().set('key', environment.firebaseApiKey)
       }).pipe(
         catchError(this.handleError),
         tap(responseData => this.handleAuthentication(responseData.email,
