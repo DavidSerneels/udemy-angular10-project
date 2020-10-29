@@ -13,11 +13,16 @@ describe('manage recipes', () => {
   })
 
   it('should add a new recipe', () => {
-    addTestRecipe();
+    addTestRecipe('recipeName1');
+    cy.get('h4').contains('recipeName1').should('exist');
+
+    addTestRecipe('recipeName2');
+    cy.get('h4').contains('recipeName1').should('exist');
+    cy.get('h4').contains('recipeName2').should('exist');
   });
 
   it('should edit an existing recipe', () => {
-    addTestRecipe();
+    addTestRecipe('recipeName1');
     cy.get('h4').contains('recipeName1').click();
 
     cy.get('button').contains('Manage Recipe').click();
@@ -31,7 +36,7 @@ describe('manage recipes', () => {
   });
 
   it('should delete an existing recipe', () => {
-    addTestRecipe();
+    addTestRecipe('recipeName1');
     cy.get('h4').contains('recipeName1').click();
 
     cy.get('button').contains('Manage Recipe').click();
@@ -40,16 +45,14 @@ describe('manage recipes', () => {
     cy.get('h4').should('not.exist');
   });
 
-  function addTestRecipe() {
+  function addTestRecipe(recipeName) {
     cy.get('button').contains('New Recipe').click();
     cy.url().should('include', '/recipes/new');
 
-    cy.get('#name').type('recipeName1');
+    cy.get('#name').type(recipeName);
     cy.get('#imagePath').type('imagePath1');
-    cy.get('#description').type('a description of recipe 1');
+    cy.get('#description').type('a description of a recipe');
 
     cy.get('button').contains('Save').click();
-
-    cy.get('h4').contains('recipeName1').should('exist');
   }
 });
