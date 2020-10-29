@@ -1,5 +1,7 @@
 {
   "baseUrl": "http://localhost:4200",
   "loginEmail": "test@test.com",
-  "loginPassword": "test123"
+  "loginPassword": "test123",
+  "loginUrl": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword",
+  "apiKey": "AIzaSyDjK7U3svW-4j96uURx39FOoQ_xUU_35PU"
 }

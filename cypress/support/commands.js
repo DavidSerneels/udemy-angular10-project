@@ -23,3 +23,32 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+Cypress.Commands.add('realLogin', () => {
+  cy.request({
+    method: 'POST',
+    url: Cypress.config('loginUrl'),
+    body: {
+      email: Cypress.config('loginEmail'),
+      password: Cypress.config('loginPassword'),
+      returnSecureToken: true
+    }, qs: {
+      key:  Cypress.config('apiKey')
+    }
+  }).then((response) => {
+    const expDate = new Date(new Date().getTime() + +response.body['expiresIn'] * 1000);
+    const user = {
+      email: response.body['email'],
+      id: response.body['localId'],
+      _token: response.body['idToken'],
+      _tokenExpirationDate: expDate
+    };
+    localStorage.setItem('userData', JSON.stringify(user));
+  });
+});
+
+Cypress.Commands.add('mockLogin', () => {
+  cy.fixture('userData.json').then(userData => {
+    userData._tokenExpirationDate = new Date(new Date().getTime() + 3600000);
+    localStorage.setItem('userData', JSON.stringify(userData));
+  });
+});
